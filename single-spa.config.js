@@ -8,9 +8,15 @@
 import {registerApplication, start} from 'single-spa';
 
 registerApplication(
+    'navbar',
+    () => import('./src/navbar/main.app.js'),
+    () => true
+);
+
+registerApplication(
   'react',
   () => import('./src/react/main.app.js'),
-  () => location.pathname.startsWith('/react')
+  location => location.pathname.startsWith('/react')
 );
 
 registerApplication(
@@ -27,7 +33,7 @@ registerApplication(
 
 registerApplication(
     'inferno',
-    () => import('./src/inferno/main.app.js'),
+    () => import('./src/inferno/inferno.app.js'),
     () => location.pathname.startsWith('/inferno')
 );
 

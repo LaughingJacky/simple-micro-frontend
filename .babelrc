@@ -8,10 +8,9 @@
     ["@babel/preset-react"]
   ],
   "plugins": [
-    "babel-plugin-inferno",
     "@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-proposal-object-rest-spread"
-    // 'transform-class-properties',
-    // 'transform-function-bind'
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-syntax-class-properties",
+    "@babel/plugin-syntax-function-bind"
   ]
 }

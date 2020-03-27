@@ -11,7 +11,7 @@ import custom from './custom-element';
 
 export default class extends Component {
     render() {
-        return <div>Hello World {
+        return <div>Hello from {
             createElement(custom, {name: 'inferno'})
         }</div>;
     }
