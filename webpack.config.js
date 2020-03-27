@@ -7,8 +7,11 @@
  */
 const path = require('path');
 const webpack = require('webpack');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
+const infernoBabelConfig = getBabelConfig();
+infernoBabelConfig.plugins.push('inferno');
 
 module.exports = {
     mode: 'development',
@@ -27,9 +30,15 @@ module.exports = {
                 use: ['style-loader', 'css-loader']
             },
             {
+                test: /inferno.+\.js$/,
+                loader: 'babel-loader',
+                query: infernoBabelConfig
+            },
+            {
                 test: /\.js$/,
-                exclude: [path.resolve(__dirname, 'node_modules')],
-                loader: 'babel-loader'
+                exclude: /node_modules|inferno/,
+                loader: 'babel-loader',
+                query: getBabelConfig()
             },
             {
                 test: /\.svelte$/,
@@ -42,14 +51,16 @@ module.exports = {
             {
                 test: /\.riot$/,
                 exclude: /node_modules/,
-                use: [{
-                    loader: '@riotjs/webpack-loader',
-                    options: {
-                        hot: false // set it to true if you are using hmr
-                    // add here all the other @riotjs/compiler options riot.js.org/compiler
-                    // template: 'pug' for example
+                use: [
+                    {
+                        loader: '@riotjs/webpack-loader',
+                        options: {
+                            hot: false // set it to true if you are using hmr
+                            // add here all the other @riotjs/compiler options riot.js.org/compiler
+                            // template: 'pug' for example
+                        }
                     }
-                }]
+                ]
             }
         ]
     },
@@ -62,13 +73,32 @@ module.exports = {
         },
         modules: [path.resolve(__dirname, 'node_modules')]
     },
-    plugins: [
-        new CleanWebpackPlugin(),
-        new VueLoaderPlugin()
-    ],
+    plugins: [new CleanWebpackPlugin(), new VueLoaderPlugin()],
     devtool: 'source-map',
     externals: [],
     devServer: {
         historyApiFallback: true
     }
 };
+
+function getBabelConfig() {
+    return {
+        presets: [
+            [
+                '@babel/preset-env',
+                {
+                    targets: {
+                        browsers: ['last 2 versions']
+                    }
+                }
+            ],
+            ['@babel/preset-react']
+        ],
+        plugins: [
+            '@babel/plugin-syntax-dynamic-import',
+            '@babel/plugin-proposal-object-rest-spread',
+            '@babel/plugin-syntax-class-properties',
+            '@babel/plugin-syntax-function-bind'
+        ]
+    };
+}

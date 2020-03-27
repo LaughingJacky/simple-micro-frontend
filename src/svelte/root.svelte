@@ -1,4 +1,4 @@
-<h2>Hello World, {name}</h2>
+<h2>Hello from, {name}</h2>
 <script>
     let name = 'svelte';
 </script>
