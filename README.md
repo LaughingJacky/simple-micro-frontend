@@ -11,5 +11,6 @@ This code goes along with the blog post [Single-SPA构建前端微服务（一�
 
 ## TODO
 
-1. devide & seperate webpack config, build process.
-2. devide router control by sub system.
+1. devide & seperate webpack config, build process, connect with SystemJS.
+2. sub router control via sub system.
+3. create portal app to handle communication.
